@@ -88,7 +88,7 @@ app = Flask(__name__)
 def home():
     return "CG BOT AI Billing Running"
 
-VERIFY_TOKEN = "welcome"
+VERIFY_TOKEN = "hi"
 
 @app.route("/webhook", methods=["GET"])
 def verify():
@@ -111,5 +111,6 @@ def main():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
