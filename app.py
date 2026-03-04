@@ -1,3 +1,5 @@
+from flask import Flask
+app = Flask(__name__)
 import re
 import dateparser
 import sqlite3
@@ -77,7 +79,22 @@ def main():
             print(f"✅ Saved: ₹{amount} due on {date.strftime('%Y-%m-%d')}")
         except Exception as e:
             print(f"❌ Error saving payment: {e}")
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "CG BOT AI Billing Running"
+
+
+def main():
+    while True:
+        try:
+            # your existing code
+            pass
+        except Exception as e:
+            print(f"Error: {e}")
+
 
 if __name__ == "__main__":
     main()
-        
