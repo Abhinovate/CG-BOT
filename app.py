@@ -98,7 +98,12 @@ def verify():
     if token == VERIFY_TOKEN:
         return challenge
     return "Verification failed"
-
+    
+@app.route("/webhook", methods=["POST"])
+def receive_message():
+    data = request.get_json()
+    print("Incoming message:", data)
+    return "ok", 200
 
 def main():
     while True:
@@ -111,6 +116,7 @@ def main():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
