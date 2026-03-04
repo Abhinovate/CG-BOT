@@ -1,10 +1,12 @@
-from flask import Flask
-app = Flask(__name__)
+from flask import Flask, request
 import re
 import dateparser
 import sqlite3
 from datetime import datetime
+
+app = Flask(__name__)
 from dateparser.search import search_dates
+
 
 
 DB_PATH = "payments.db"
@@ -86,6 +88,17 @@ app = Flask(__name__)
 def home():
     return "CG BOT AI Billing Running"
 
+VERIFY_TOKEN = "welcome"
+
+@app.route("/webhook", methods=["GET"])
+def verify():
+    token = request.args.get("hub.verify_token")
+    challenge = request.args.get("hub.challenge")
+
+    if token == VERIFY_TOKEN:
+        return challenge
+    return "Verification failed"
+
 
 def main():
     while True:
@@ -98,4 +111,5 @@ def main():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
