@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE-THIRD()EYE | AI & WhatsApp Automation</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f8f8f5;
+  --dark: #111111;
+  --accent: #00c968;
+  --gray: #666;
+  --light: #efefea;
+  --border: #e0e0d8;
+}
+body { font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--dark); }
+nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.5rem 5rem; border-bottom: 1px solid var(--border);
+  background: var(--bg); position: sticky; top: 0; z-index: 100;
+}
+.logo { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; color: var(--dark); text-decoration: none; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: var(--dark); }
+.nav-cta { background: var(--dark); color: white; padding: 0.6rem 1.5rem; font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer; text-decoration: none; border-radius: 4px; transition: background 0.2s; }
+.nav-cta:hover { background: var(--accent); color: var(--dark); }
+.hero { padding: 7rem 5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; border-bottom: 1px solid var(--border); }
+.hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: #e8faf2; color: var(--accent); padding: 0.4rem 1rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem; }
+.hero h1 { font-size: clamp(2.5rem, 4.5vw, 4rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero p { font-size: 1.1rem; color: var(--gray); line-height: 1.7; margin-bottom: 2.5rem; max-width: 460px; }
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-dark { background: var(--dark); color: white; padding: 0.85rem 2rem; border-radius: 4px; font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+.btn-dark:hover { background: var(--accent); color: var(--dark); }
+.btn-light { background: transparent; color: var(--dark); padding: 0.85rem 2rem; border-radius: 4px; font-size: 0.9rem; font-weight: 600; text-decoration: none; border: 1.5px solid var(--border); transition: all 0.2s; }
+.btn-light:hover { border-color: var(--dark); }
+.hero-visual { background: var(--dark); border-radius: 12px; padding: 2.5rem; position: relative; overflow: hidden; }
+.hero-visual::before { content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(0,201,104,0.15), transparent); border-radius: 50%; }
+.chat-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.3); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+.chat-window { display: flex; flex-direction: column; gap: 1rem; }
+.msg { padding: 0.85rem 1.2rem; border-radius: 8px; font-size: 0.9rem; line-height: 1.5; max-width: 85%; }
+.msg-user { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); align-self: flex-end; border-radius: 8px 8px 0 8px; }
+.msg-bot { background: var(--accent); color: var(--dark); font-weight: 600; border-radius: 8px 8px 8px 0; }
+.typing { display: flex; gap: 4px; align-items: center; padding: 0.85rem 1.2rem; background: rgba(255,255,255,0.05); border-radius: 8px; width: fit-content; }
+.typing span { width: 6px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 50%; animation: bounce 1.2s infinite; }
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+.wa-badge { display: flex; align-items: center; gap: 0.5rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: rgba(255,255,255,0.35); font-family: 'Space Mono', monospace; }
+.wa-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.services { padding: 6rem 5rem; border-bottom: 1px solid var(--border); }
+.section-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.75rem; }
+.section-title { font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 3rem; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.service-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 2.5rem; transition: all 0.3s; }
+.service-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+.service-icon { width: 48px; height: 48px; background: #e8faf2; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.5rem; }
+.service-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
+.service-card p { font-size: 0.9rem; color: var(--gray); line-height: 1.6; }
+.how { padding: 6rem 5rem; background: var(--dark); color: white; }
+.how .section-title { color: white; margin-bottom: 0; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 3.5rem; }
+.step { padding: 2.5rem; border-right: 1px solid rgba(255,255,255,0.08); }
+.step:last-child { border-right: none; }
+.step-num { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 1.5rem; display: block; }
+.step h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem; }
+.step p { font-size: 0.85rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+.contact { padding: 6rem 5rem; background: var(--light); border-bottom: 1px solid var(--border); }
+.contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+.contact-info h2 { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; letter-spacing: -0.02em; }
+.contact-info p { font-size: 0.95rem; color: var(--gray); line-height: 1.7; margin-bottom: 2rem; }
+.contact-detail { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: var(--dark); margin-bottom: 0.75rem; }
+.contact-detail span { color: var(--accent); }
+form { display: flex; flex-direction: column; gap: 1rem; }
+form input, form textarea, form select { padding: 0.9rem 1.2rem; border: 1.5px solid var(--border); border-radius: 6px; background: white; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; color: var(--dark); outline: none; transition: border-color 0.2s; }
+form input:focus, form textarea:focus, form select:focus { border-color: var(--accent); }
+form textarea { height: 130px; resize: vertical; }
+form button { background: var(--dark); color: white; padding: 1rem; border: none; border-radius: 6px; font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+form button:hover { background: var(--accent); color: var(--dark); }
+.cta-section { padding: 6rem 5rem; text-align: center; border-bottom: 1px solid var(--border); }
+.cta-section h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1rem; }
+.cta-section p { font-size: 1rem; color: var(--gray); margin-bottom: 2.5rem; }
+footer { padding: 2.5rem 5rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+.footer-logo { font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700; color: var(--dark); text-decoration: none; }
+.footer-logo span { color: var(--accent); }
+.footer-copy { font-size: 0.8rem; color: var(--gray); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { font-size: 0.85rem; color: var(--gray); text-decoration: none; }
+.footer-links a:hover { color: var(--dark); }
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 4rem 1.5rem 3rem; }
+  .services { padding: 3rem 1.5rem; }
+  .services-grid { grid-template-columns: 1fr; }
+  .how { padding: 3rem 1.5rem; }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .step { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .contact { padding: 3rem 1.5rem; }
+  .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .cta-section { padding: 3rem 1.5rem; }
+  footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">THE-THIRD<span>()</span>EYE</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get Started</a>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="hero-badge">✦ AI-Powered WhatsApp Automation</div>
+    <h1>Automate Your Business with <em>CG Bot</em></h1>
+    <p>We build intelligent WhatsApp chatbots and AI automation solutions that help businesses respond faster, sell smarter, and grow without limits.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-dark">Start Building →</a>
+      <a href="#services" class="btn-light">See Services</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="chat-label">CG Bot — Live Preview</div>
+    <div class="chat-window">
+      <div class="msg msg-user">Hi, I need help with my order</div>
+      <div class="msg msg-bot">Hey! I'm CG Bot 👋 I can help you track orders, answer questions, and more. What's your order ID?</div>
+      <div class="msg msg-user">Order #2847</div>
+      <div class="typing"><span></span><span></span><span></span></div>
+    </div>
+    <div class="wa-badge"><div class="wa-dot"></div> Connected via WhatsApp Business API</div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="section-label">What We Build</div>
+  <div class="section-title">Our Services</div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🤖</div>
+      <h3>WhatsApp AI Chatbot</h3>
+      <p>Intelligent bots that understand natural language, answer questions, and handle customer support 24/7 on WhatsApp.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⚡</div>
+      <h3>Business Automation</h3>
+      <p>Automate order tracking, appointment booking, lead collection, and follow-ups — all running automatically.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📣</div>
+      <h3>Broadcast Campaigns</h3>
+      <p>Send personalized bulk messages to thousands of customers at once — promotions, updates, and alerts at scale.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔗</div>
+      <h3>API Integration</h3>
+      <p>Connect your WhatsApp bot to your existing CRM, e-commerce platform, or custom database seamlessly.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📊</div>
+      <h3>Analytics Dashboard</h3>
+      <p>Track conversations, response rates, customer satisfaction, and bot performance in real time.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛠️</div>
+      <h3>Custom AI Solutions</h3>
+      <p>Tailor-made AI for your specific needs — from smart FAQs to full AI-powered sales pipelines.</p>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="section-label">The Process</div>
+  <div class="section-title">How It Works</div>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">01</span>
+      <h3>Consultation</h3>
+      <p>We understand your business needs, goals, and customer communication challenges.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <h3>Design & Build</h3>
+      <p>We design the bot flow, integrate AI, and connect to WhatsApp Business API.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <h3>Test & Deploy</h3>
+      <p>Thorough testing across real scenarios before going live on your WhatsApp number.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">04</span>
+      <h3>Support & Scale</h3>
+      <p>Ongoing maintenance, improvements, and scaling as your business grows.</p>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-info">
+      <div class="section-label">Get In Touch</div>
+      <h2>Let's Build Your Bot</h2>
+      <p>Ready to automate your business on WhatsApp? Fill out the form and we'll get back to you within 24 hours.</p>
+      <div class="contact-detail"><span>📍</span> Dharwad, Karnataka, India</div>
+      <div class="contact-detail"><span>💬</span> WhatsApp & Email Support</div>
+      <div class="contact-detail"><span>⏱️</span> Response within 24 hours</div>
+    </div>
+    <form onsubmit="handleSubmit(event)">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Email Address" required />
+      <input type="tel" placeholder="WhatsApp Number" />
+      <select>
+        <option value="" disabled selected>What do you need?</option>
+        <option>WhatsApp Chatbot</option>
+        <option>Business Automation</option>
+        <option>Broadcast Campaigns</option>
+        <option>Custom AI Solution</option>
+        <option>Other</option>
+      </select>
+      <textarea placeholder="Tell us about your project..."></textarea>
+      <button type="submit">Send Message →</button>
+    </form>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Ready to automate your business?</h2>
+  <p>Join businesses already using CG Bot to serve customers smarter.</p>
+  <a href="#contact" class="btn-dark">Get Started →</a>
+</section>
+
+<footer>
+  <a href="#" class="footer-logo">THE-THIRD<span>()</span>EYE</a>
+  <div class="footer-copy">© 2026 THE-THIRD()EYE. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.textContent = '✓ Message Sent!';
+  btn.style.background = '#00c968';
+  btn.style.color = '#111';
+  setTimeout(() => {
+    btn.textContent = 'Send Message →';
+    btn.style.background = '';
+    btn.style.color = '';
+    e.target.reset();
+  }, 3000);
+}
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
